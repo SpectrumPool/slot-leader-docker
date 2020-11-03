@@ -22,7 +22,8 @@ ENV LEDGER_JSON=/ledger.json
 ENV VRF_SKEY=/vrf.skey
 ENV SILENT=
 ENV SIGMA=
-ENV BFT=
+ENV EXTRA_ARGS=
+
 
 COPY entrypoint.sh .
 RUN chmod 0700 entrypoint.sh

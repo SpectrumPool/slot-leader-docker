@@ -38,6 +38,8 @@ then
   print
 fi
 
-CMD="python3 leaderLogs.py --vrf-skey '$VRF_SKEY' --sigma '$SIGMA' --tz '$TIME_ZONE'  --porcelain $BFT"
+EXTRA_ARGS="$EXTRA_ARGS"
+
+CMD="python3 leaderLogs.py --vrf-skey '$VRF_SKEY' --sigma '$SIGMA' --tz '$TIME_ZONE'  --porcelain $EXTRA_ARGS"
 print "$CMD"
 bash -c "$CMD"
