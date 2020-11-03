@@ -4,7 +4,7 @@ Expanding on papacarp's pooltool.io repo and specifically on the leaderLogs
 scripts, this repo provides a dockerized version of `leaderLogs.py` intended
 for programmatic use.
 
-> NOTE: This currently only supports only the mainnet!
+> NOTE: This currently only supports the mainnet!
 
 ## Usage
 
