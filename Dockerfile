@@ -24,10 +24,10 @@ ENV SILENT=
 ENV SIGMA=
 ENV BFT=
 
-COPY slot-leader/entrypoint.sh .
+COPY entrypoint.sh .
 RUN chmod 0700 entrypoint.sh
 
-COPY slot-leader/pooltool.io/leaderLogs/leaderLogs.py .
-COPY slot-leader/pooltool.io/leaderLogs/getSigma.py .
+COPY pooltool.io/leaderLogs/leaderLogs.py .
+COPY pooltool.io/leaderLogs/getSigma.py .
 
 ENTRYPOINT ./entrypoint.sh
