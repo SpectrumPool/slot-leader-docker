@@ -32,6 +32,17 @@ docker run -ti --rm \
 
 ### Output
 
+```
+[
+	{
+		"timestamp": "2020-10-07 16:36:02", 
+		"timestamp_unix": 1602088562.0, 
+		"stolen": false, 
+		"epochSlot": 406271
+	}
+]
+```
+
 The main output of the `spectrumpool/slot-leader` container is a JSON list
 of slots for which your pool is _slot leader_. The slot objects include a
 human readable timestamp, a unix timestamp and a boolean field indicating if
