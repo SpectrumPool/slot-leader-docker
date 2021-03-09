@@ -10,13 +10,9 @@ print(){
   fi
 }
 
-## Todo:
-#  1. Someone needs to run:
-#     cardano-cli shelley query ledger-state --mainnet --out-file /ledgerstate.json
-#     on a node and share the file with this container
-
 print "Running with:
 
+  EPOCH:        $EPOCH
   POOL_ID:      $POOL_ID
   TIME_ZONE:    $TIME_ZONE
   LEDGER_STATE: $LEDGER_JSON (RUN: cardano-cli shelley query ledger-state --mainnet --out-file ledger.json)
@@ -40,6 +36,6 @@ fi
 
 EXTRA_ARGS="$EXTRA_ARGS"
 
-CMD="python3 leaderLogs.py --vrf-skey '$VRF_SKEY' --sigma '$SIGMA' --tz '$TIME_ZONE'  --porcelain $EXTRA_ARGS"
+CMD="python3 leaderLogs.py --epoch '$EPOCH' --pool-id '$POOL_ID' --vrf-skey '$VRF_SKEY' --sigma '$SIGMA' --tz '$TIME_ZONE'  --porcelain $EXTRA_ARGS"
 print "$CMD"
 bash -c "$CMD"

@@ -28,7 +28,7 @@ ENV EXTRA_ARGS=
 COPY entrypoint.sh .
 RUN chmod 0700 entrypoint.sh
 
-COPY pooltool.io/leaderLogs/leaderLogs.py .
-COPY pooltool.io/leaderLogs/getSigma.py .
+COPY leaderLogs.py .
+COPY getSigma.py .
 
 ENTRYPOINT ./entrypoint.sh
