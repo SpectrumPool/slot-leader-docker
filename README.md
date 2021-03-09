@@ -11,6 +11,7 @@ for programmatic use.
 To just run slot-leader once run:
 ```
 docker run -ti --rm \
+        -e EPOCH=252 \
 	-e POOL_ID=079c...YOUR_POOL_ID_HEX...2791 \
 	-v /path/to/your/ledger.json:/ledger.json \
 	-v /path/to/your/vrf.skey:/vrf.skey \
@@ -24,6 +25,7 @@ To use it programmatically make sure to set the `SILENT` variable to `"true"`
 ```
 docker run -ti --rm \
 	-e SILENT=true \
+        -e EPOCH=252 \
 	-e POOL_ID=079c374160b0ae34a5a20b8e95a5b5c8766239b2984f13d7ab962791 \
 	-v /path/to/your/ledger.json:/ledger.json \
 	-v /path/to/your/vrf.skey:/vrf.skey \
@@ -59,6 +61,7 @@ calculation.
 ```
 docker run -ti --rm \
 	-e SILENT=true \
+        -e EPOCH=252 \
 	-e SIGMA=0.0000197962 \
 	-e POOL_ID=079c374160b0ae34a5a20b8e95a5b5c8766239b2984f13d7ab962791 \
 	-v /path/to/your/ledger.json:/ledger.json \
@@ -72,7 +75,7 @@ You can steer wich epoch gets calculated via the `EPOCH` and `EPOCH_NONCE` env
 varliables. Since `SIGMA` can only be calculated for the current epoch, it is
 required to add these three env vars together.
 
-This container is per default dependent on _epoch-api.crypto2099.io_ for the
+This container is per default dependent on _api.crypto2099.io_ for the
 epoch nonces. In case you add the `EPOCH` and `EPOCH_NONCE` env vars manually,
 the call to _epoch-api_ is completely circumvented.
 
@@ -81,13 +84,16 @@ docker run -ti --rm \
 	-e SILENT=true \
 	-e SIGMA=0.0000065 \
 	-e POOL_ID=079c374160b0ae34a5a20b8e95a5b5c8766239b2984f13d7ab962791 \
-        -e EXTRA_ARGS="--epoch 221 --epoch-nonce 5ee77854fe91cc243b8d5589de3192e795f162097dba7501f8d1b0d5d7546bd5 --d-param 0.62" \
+        -e EPOCH=252 \
+        -e EXTRA_ARGS="--epoch-nonce 5ee77854fe91cc243b8d5589de3192e795f162097dba7501f8d1b0d5d7546bd5 --d-param 0.62" \
 	-v /path/to/your/ledger.json:/ledger.json \
 	-v /path/to/your/vrf.skey:/vrf.skey \
 	spectrumpool/slot-leader
 ```
 
-You can also pass arbitrary arguments to leaderLogs.py via the `EXTRA_ARGS` variable
+You can also pass arbitrary arguments to `leaderLogs.py` via the `EXTRA_ARGS`
+variable. See the begining of the `leaderLogs.py` file for what arguments can
+be passed.
 
 ### Real World Compose Config
 
@@ -108,10 +114,10 @@ services:
 ## I don't trust your $%!@# container!
 
 And that is fine. Just 
-`git clone --recursive https://github.com/SpectrumPool/slot-leader-docker.git`
+`git clone https://github.com/SpectrumPool/slot-leader-docker.git`
 and build it yourself! ;-)
 
 ## Thanks
 
 Thanks to Andrew Westberg [BCSH] and Papacarp [LOVE] for creating and hosting
-the meat of this container.
+the meat of this container and to Adam Dean [BUFFY] for the nonce api.
