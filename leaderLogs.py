@@ -71,11 +71,11 @@ try:
         epoch_data = fetchEpochData(args.epoch, args.poolId)
         epoch = epoch_data['epoch']
         eta0 = epoch_data['nonce']
-        decentralizationParam = args.d or epoch_data['d']
+        decentralizationParam = args.d or epoch_data['d'] or 0
     else:
         epoch = args.epoch
         eta0 = args.eta0
-        decentralizationParam = args.d
+        decentralizationParam = args.d or 0
     
     poolId = args.poolId
     sigma = args.sigma
