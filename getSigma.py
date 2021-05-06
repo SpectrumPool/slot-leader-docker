@@ -12,9 +12,9 @@ parser.add_argument('--porcelain', action='store_true', help='if specified will 
 args = parser.parse_args()
 
 poolId = args.id
-ledger = args.ledger
+ledger_file = args.ledger
 
-if not path.exists(ledger):
+if not path.exists(ledger_file):
     txt1 = "We tried but could not locate your ledger-state JSON file!"
     txt1 += "Use: \033[1;34mcardano-cli shelley query ledger-state --mainnet --out-file ledger.json\033[0m to export one!"
     if not args.porcelain:
@@ -23,7 +23,7 @@ if not path.exists(ledger):
         print('{ "error": "' + txt1 + '"}')        
     exit(1)
 
-with open(ledger) as f:
+with open(ledger_file) as f:
     ledger = json.load(f)
     
 stakequery="_pstakeSet"
@@ -34,17 +34,23 @@ blockstakedelegators={}
 blockstake={}
 bs={}
 
+delegations_attr = "_delegations"
+stake_attr = "_stake"
+
 if 'stateBefore' in ledger:
-  stakequery="pstakeSet"
+  stake_set_query="pstakeSet"
+  delegations_attr = "delegations"
+  stake_attr = "stake"
   if args.next:
-    stakequery="pstakeMark"
-  ledger_set=ledger['stateBefore']['esSnapshots'][stakequery]
-if 'nesEs' in ledger:
+    stake_set_query="pstakeMark"
+  #             jq '.stateBefore   .esSnapshots  .pstakeSet' /tmp/ledger.json
+  ledger_set=ledger['stateBefore']['esSnapshots'][stake_set_query]
+elif 'nesEs' in ledger:
   ledger_set=ledger['nesEs']['esSnapshots'][stakequery]
 else:
   ledger_set=ledger['esSnapshots'][stakequery]
 
-for item2 in ledger_set['_delegations']:
+for item2 in ledger_set[delegations_attr]:
     keyhashobj = []
     for itemsmall in item2:
         if 'key hash' in itemsmall:
@@ -56,7 +62,7 @@ for item2 in ledger_set['_delegations']:
     else:
         blockstakedelegators[poolid]=blockstakedelegators[poolid]+keyhashobj
 
-for item2 in ledger_set['_stake']:
+for item2 in ledger_set[stake_attr]:
     delegatorid = None
     for itemsmall in item2:
         if isinstance(itemsmall,int):
