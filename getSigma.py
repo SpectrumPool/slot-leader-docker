@@ -27,18 +27,18 @@ with open(ledger) as f:
     ledger = json.load(f)
     
 stakequery="_pstakeSet"
-stakeinfo="active"
 if args.next:
   stakequery="_pstakeMark"
-  stakeinfo="next"
 
 blockstakedelegators={}
 blockstake={}
 bs={}
 
-if not args.porcelain:
-    print("building "+stakeinfo+" stake")
-
+if 'stateBefore' in ledger:
+  stakequery="pstakeSet"
+  if args.next:
+    stakequery="pstakeMark"
+  ledger_set=ledger['stateBefore']['esSnapshots'][stakequery]
 if 'nesEs' in ledger:
   ledger_set=ledger['nesEs']['esSnapshots'][stakequery]
 else:
@@ -84,6 +84,9 @@ if not args.porcelain:
 else:
     result = dict()
     result["sigma"] = "%.10f" % float(sigma)
-    result["stakeinfo"] = stakeinfo
+    if args.next:
+      result["stakeinfo"] = "next"
+    else:
+      result["stakeinfo"] = "active"
     result["stakequery"] = stakequery
     print(json.dumps(result))
